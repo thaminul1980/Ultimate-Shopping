@@ -20,6 +20,13 @@
   
   <dependencies>
   
+  <!-- link backend project-->
+  <dependency>
+  <groupId>com.example</groupId>
+  <artifactId>UltimateShoppingBackend</artifactId>
+  <version>0.0.1-SNAPSHOT</version>  
+  </dependency>
+  
   <!-- https://mvnrepository.com/artifact/javax/javaee-api -->
 <dependency>
     <groupId>javax</groupId>
