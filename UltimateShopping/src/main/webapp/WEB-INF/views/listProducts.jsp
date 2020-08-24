@@ -30,7 +30,7 @@
 
 					</c:if>
 
-					<c:if test="${userClickCtegoryProducts == true }">
+					<c:if test="${userClickCategoryProducts == true }">
 
 						<ol class="breadcrumb">
 

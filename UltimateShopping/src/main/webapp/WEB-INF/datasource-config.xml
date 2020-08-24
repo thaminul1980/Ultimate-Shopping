@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd		
+	   		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+	   		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<context:property-placeholder
+		location="classpath:datasource.properties" />
+
+	<bean id="dataSource" class="oracle.jdbc.pool.OracleDataSource"
+		destroy-method="close">
+		<property name="connectionCachingEnabled" value="true" />
+		<property name="URL"
+			value="jdbc:oracle:thin@localhost:1521/orcl" />
+		<property name="user" value="jeeappdb" />
+		<property name="password" value="password" />
+	</bean>
+
+	<bean id="entityManagerFactory"
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="jpaVendorAdapter">
+			<bean
+				class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+				<property name="showSql" value="true" />
+				<property name="generateDdl" value="true" />
+				<property name="databasePlatform"
+					value="org.hibernate.dialect.Oracle10gDialect" />
+			</bean>
+		</property>
+
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<bean id="transactionManager"
+		class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+		<property name="entityManagerFactory"
+			ref="entityManagerFactory" />
+	</bean>
+
+	<tx:annotation-driven
+		transaction-manager="transactionManager" />
+
+	<bean
+		class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
+
+	<!-- Session Factory -->
+
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="packagesToScan"
+			value="com.example.UltimateShoppingBanckend.dto" />
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.hbm2ddl.auto">
+					create-drop
+				</prop>
+				<prop key="hibernate.dialect">
+					org.hibernate.dialect.H2Dialect
+				</prop>
+			</props>
+		</property>
+	</bean>
+
+
+</beans>
